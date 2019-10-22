@@ -1,0 +1,28 @@
+version: "3.1"
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - 3306:3306
+
+  admin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8080:80
+
+  redis:
+    image: redis:5-alpine
+    ports:
+      - 4000:6379
+  streamy:
+    image: streamy
+    ports:
+      - 80:80
+      - 1935:1935
+    volumes:
+      - ./conf/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./stream:/opt/data/hls
+      - ./lua:/scripts
